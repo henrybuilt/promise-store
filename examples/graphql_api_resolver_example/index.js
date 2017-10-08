@@ -31,17 +31,12 @@ resolver.resolve = (requests) => {
     var paramsToCacheKey = $.param(request.params);
 
     if (request.cache.hasData(paramsToCacheKey)) { //We've got a response for that already!
-      console.log(request.key, paramsToCacheKey, 'grabbed from data cache');
-
       resourcePromises.push(Promise.resolve([{key: request.key, value: request.cache.getData(paramsToCacheKey)}]));
     }
     else if (request.cache.hasPromise(paramsToCacheKey)) { //We've already got an API request out for that
-      console.log(request.key, paramsToCacheKey, 'grabbed from promise cache');
-
       resourcePromises.push(request.cache.getPromise(paramsToCacheKey));
     }
     else { //We need to make a request
-      console.log('requested new resource from api')
       apiResourceRequests.push({key: request.key, paramsToCacheKey, query, cache: request.cache});
     }
   });
@@ -74,7 +69,7 @@ resolver.resolve = (requests) => {
 
   return Promise.all(resourcePromises).then((resourceArrays) => {
     var resources = {};
-    
+
     resourceArrays.forEach(resourceArray => {
       resourceArray.forEach(resource => resources[resource.key] = resource.value);
     });
