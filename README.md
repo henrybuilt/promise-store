@@ -2,7 +2,7 @@
 
 PromiseStore allows you to quickly request resources. Whether that resource needs to be fetched (from an API or elsewhere) or it is cached, is abstracted for the user.
 
-The PromiseStore is initialized with a resolver function that handles resource requests and stores the responses in caches. Each ‘resource’ has a cache, which can optionally be set to expire.
+The PromiseStore is initialized with a `resolver` function that handles resource requests and stores the responses in caches. Each 'resource' has a cache, which can optionally be set to expire.
 
 This allows you to do something like request the same data in two places, and only make 1 API call, and then continue to request it until the cached value expires.
 
@@ -35,7 +35,7 @@ store.requestMany({
 
 ## Writing a Resolver
 
-The requirements of the resolver are very minimal so that it can be used in many different ways.
+The requirements of the `resolver` you provide are very minimal so that it can be used in many different ways.
 
 You can technically get away with something that looks like this:
 
@@ -56,7 +56,7 @@ var resolver = {
 };
 ```
 
-But typical resolvers look more like this:
+But typical `resolvers` look more like this:
 
 ```javascript
 var resolver = {};
@@ -118,7 +118,7 @@ You need:
 PromiseStore.request(resourceKey<string>, config<object>) -> Promise
 ```
 
-Validates `resourceKey` and `config.params` against your `schema`, and then calls your resolver, passing it `[{<resourceKey>: <config>}]` as its parameter. It extends config by including `cache: <ResourceCache>`, (either a new or existing one depending on if the resource has been requested before or not);
+Validates `resourceKey` and `config.params` against your `schema`, and then calls your `resolve` method, passing it `[{<resourceKey>: <config>}]` as its parameter. It extends config by including `cache: <ResourceCache>`, (either a new or existing one depending on if the resource has been requested before or not);
 
 Responds with a `Promise` which resolves to the resource value **NOT** an object of the format `{<resourceKey>: <resourceValue>}`.
 
@@ -128,7 +128,7 @@ Responds with a `Promise` which resolves to the resource value **NOT** an object
 PromiseStore.requestMany([{resourceKey<string>: config<object>}, ...]) -> Promise
 ```
 
-Validates each request in the array just like request, and then passes the object to your resolver.
+Validates each request in the array just like request, and then passes the object to your `resolve` method.
 
 Response with `Promise` which resolves to an object of the format `{<resourceKey>: <resourceValue>}`.
 
