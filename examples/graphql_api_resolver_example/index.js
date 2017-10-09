@@ -1,5 +1,3 @@
-const lib = require('../lib');
-
 var resolver = {};
 
 resolver.schema = {
@@ -28,7 +26,7 @@ resolver.resolve = (requests) => {
     //All requests will be handled the same way
     var requestSchema = resolver.schema[request.key];
     var query = requestSchema.query(request.params);
-    var paramsToCacheKey = $.param(request.params);
+    var paramsToCacheKey = JSON.stringify(request.params);
 
     if (request.cache.hasData(paramsToCacheKey)) { //We've got a response for that already!
       resourcePromises.push(Promise.resolve([{key: request.key, value: request.cache.getData(paramsToCacheKey)}]));
