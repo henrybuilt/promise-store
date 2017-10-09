@@ -16,21 +16,26 @@ store.request('some_resource', {params: {p1: 0, p2: 1}}); //Will fetch fresh res
 store.request('some_resource', {params: {p1: 0, p2: 1}}); //Will use cached response
 store.request('some_resource', {params: {p1: 1, p2: 1}}); //Will  fetch fresh resource from api because the parameter is different
 
+//Will fetch two resources at once
 store.requestMany({
   some_resource:   {params: {p1: 0}},
   some_resource_2: {params: {p1: 1}}
-}); //Will fetch two resources at once
+});
+
+//Will use cached api response for some_resource_2
 store.requestMany({
   some_resource_2: {params: {p1: 1}}
-}); //Will use cached api response for some_resource_2
+});
+
+//Will fetch new resource
 store.requestMany({
   some_resource_2: {params: {p1: 1}}
-}); //Will fetch new resource
+});
 ```
 
 ## Writing a Resolver
 
-The requirements of the resolver are very minimal so that it can be used for a number of different cases.
+The requirements of the resolver are very minimal so that it can be used in many different ways.
 
 You can technically get away with something that looks like this:
 
